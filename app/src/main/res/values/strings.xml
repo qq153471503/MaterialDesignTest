@@ -1,0 +1,9 @@
+<resources>
+<string name="app_name">App</string>
+    <string name="name_upload">上传</string>
+    <string name="name_delete">删除</string>
+    <string name="name_category">菜单</string>
+    <string name="name_setting">设置</string>
+
+
+</resources>
