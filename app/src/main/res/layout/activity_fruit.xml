@@ -57,7 +57,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="35dp"
                 app:cardCornerRadius="4dp"/>
 
                 <TextView
@@ -65,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/id_textview_fruit_content"
                     android:layout_margin="10dp"
+                    android:textSize="18sp"
                     />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
