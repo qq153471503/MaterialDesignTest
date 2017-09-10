@@ -17,11 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
 import com.example.materialdesigntest.Fruit;
 import com.example.materialdesigntest.FruitAdapter;
 import com.example.materialdesigntest.R;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
