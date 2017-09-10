@@ -62,7 +62,17 @@ public class FruitAdapter extends RecyclerView.Adapter <FruitAdapter.ViewHolder>
         View view = LayoutInflater.from(context).inflate(R.layout.layout_fruit_item, parent, false);
 
         /**
-         * 设置点击时事件,启动FruitActivity
+         * (((设置点击CardView时的响应事件: 启动FruitActivity)))
+         *
+         * 内部类访问父类的变量,必须加final修饰,这是由于内部类和局部变量的生命周期不同导致的,
+         * 内部类访问父类成员变量,实际上就是在内部类中的构造方法中this.a = a;这样传入了父类中的成员变量
+         *
+         * 那么问题是:我们希望在内部类中访问父类中的成员变量和引用,那么就用final修饰,标明这是最终类型的
+         * 如果是变量,加上final变成常量传进内部类,如果是对象的引用,表明这个引用只能指向这个对象,无法被改变
+         *
+         * 详情解释:http://www.cnblogs.com/xh0102/p/5729381.html
+         *
+         * 在此处中,在本函数执行完毕之后,view被释放掉,用final修饰后的viewHolder,在点击事件来临后,viewHolder依然持有对view的管理,所以能够获取view上的信息,然后去响应事件
          */
         final ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
