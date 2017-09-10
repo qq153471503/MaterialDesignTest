@@ -4,12 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/drawer_layout" >
+    android:id="@+id/drawer_layout"
+    android:layout_gravity="start">
 
+    <!-- CoordinatorLayout 和Fragment类似,比之强大,并且带有material desiger 效果,可以监听子控件,如弹出Snacker,可以自动调整悬浮式按钮升高-->
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- AppBarLayout包装,实际是一个垂直方向的Fragment -->
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -24,13 +27,27 @@
                 />
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <!-- 下拉刷新 -->
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/id_recyclerView"
+            android:id="@+id/id_swipe_refresh_layout"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            />
+            >
 
+            <!-- RecyclerView相当于ListView,不过比之功能要更加强大
+                指定行为app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                其实就是一个滚动事件,会在 app:layout_scrollFlags="snap|scroll|enterAlways"做处理
+            -->
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/id_recyclerView"
+                />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+
+        <!--  悬浮式按钮 -->
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,6 +58,7 @@
             />
     </android.support.design.widget.CoordinatorLayout>
 
+    <!-- 滑动出来的导航页 -->
     <android.support.design.widget.NavigationView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

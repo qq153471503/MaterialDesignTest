@@ -1,12 +1,12 @@
 package com.example.materialdesigntest;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -18,13 +18,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
+    private SwipeRefreshLayout swipeRefreshLayout;//下拉刷新
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
     private FloatingActionButton floatingActionButton_Add;
@@ -91,13 +91,21 @@ public class MainActivity extends ActionBarActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.item_category);
         }
 
-
         /**
          * 滑动出现的布局
          */
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
 
 
+//        navigationView = (NavigationView)findViewById(R.id.nav_view);
+//        navigationView.setCheckedItem(R.id.nav_call);
+//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                mDrawerLayout.closeDrawers();
+//                return true;
+//            }
+//        });
         /**
          * 滑动出现的布局显示内容初始化,以及点击监听事件
          */
@@ -142,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
         floatingActionButton_Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //点击事件之后,Toast无发在响应其他事件
+                //点击事件之后,Toast无发在响应其他事件所以用Snackbar
 //                Toast.makeText(MainActivity.this, "You clicked FloatActionButton. ", Toast.LENGTH_SHORT).show();
                 Snackbar.make(view, "是否删除?", Snackbar.LENGTH_SHORT).setAction("否", new View.OnClickListener() {
                     @Override
@@ -152,25 +160,11 @@ public class MainActivity extends ActionBarActivity {
                 }).show();
             }
         });
-//        navigationView = (NavigationView)findViewById(R.id.nav_view);
-//        navigationView.setCheckedItem(R.id.nav_call);
-//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                mDrawerLayout.closeDrawers();
-//                return true;
-//            }
-//        });
 
-        /**
-         * 添加水果列表
+        /*
+         * 为List添加数据,就是将水果数据添加进去
          */
-        fruitList.clear();
-        for (int i=0; i<50; i++){
-            Random random = new Random();
-            int index = random.nextInt(fruits.length);
-            fruitList.add(fruits[index]);
-        }
+        initFruits();
 
         /**
          * RecyclerView要显示的水果列表 ,CardView初始化
@@ -180,5 +174,49 @@ public class MainActivity extends ActionBarActivity {
         recyclerView.setLayoutManager(gridLayoutManager);
         fruitAdapter = new FruitAdapter(fruitList);
         recyclerView.setAdapter(fruitAdapter);
+
+        /**
+         * 下拉刷新初始化布局以及设置事件监听
+         */
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.id_swipe_refresh_layout);
+        //设置下拉刷新进度条的颜色
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        //设置下拉刷新监听器,有事件发生就会回调onRefresh函数.
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(1500);
+                        }catch (InterruptedException e){
+                            e.printStackTrace();
+                        }
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                initFruits(); //重新加载数据
+                                fruitAdapter.notifyDataSetChanged();    //通知适配器数据发生改变,刷新新的显示
+                                swipeRefreshLayout.setRefreshing(false);    //传入false表示刷新事件结束,并隐藏进度条
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+    }
+
+    /**
+     * 添加水果数据
+     */
+    private void initFruits() {
+        fruitList.clear();
+        for (int i=0; i<50; i++){
+            Random random = new Random();
+            int index = random.nextInt(fruits.length);
+            fruitList.add(fruits[index]);
+        }
     }
 }
