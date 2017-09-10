@@ -23,8 +23,7 @@ public class FruitAdapter extends RecyclerView.Adapter <FruitAdapter.ViewHolder>
     private Context context;
     private List<Fruit> fruitList;
 
-
-     static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
         ImageView imageViewFruit;
         TextView textViewFruitName;

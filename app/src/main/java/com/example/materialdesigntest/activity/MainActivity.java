@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
 //                return true;
 //            }
 //        });
+
         /**
          * 滑动出现的布局显示内容初始化,以及点击监听事件
          */
@@ -121,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.nav_call:
+                        /**
+                         * 点击之后弹出提示,并且关闭 滑动出现的布局,下同.
+                         */
                         Toast.makeText(MainActivity.this, "You clicked Call.",Toast.LENGTH_SHORT).show();
                         mDrawerLayout.closeDrawers();
                         break;
@@ -189,6 +193,9 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                /**
+                 * 开一个新线程并且睡眠1500毫秒模拟刷新的时间
+                 */
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
