@@ -91,7 +91,6 @@ public class MainActivity extends ActionBarActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.item_category);
         }
 
-
         /**
          * 滑动出现的布局
          */
